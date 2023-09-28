@@ -92,12 +92,14 @@
       <th>Nombre</th>
       <th>Status</th>
       <th>Subido</th>
+      <th>Tipo de documento</th>
     </tr>
     {{#each user.documents}}
       <tr>
         <td>{{name}}</td>
         <td>{{status}}</td>
         <td>{{statusVerified}}</td>
+        <td>{{documentType}}</td>
       </tr>
     {{/each}}
   </table>
@@ -109,15 +111,13 @@
         <th></th>
       </tr>
       <tr class='data'>
-        <td>Documento de Identificación:</td>
-        <td><input type='file' name='documents' accept='.pdf, .jpg, .png' /></td>
-      </tr>
-      <tr class='data'>
-        <td>Comprobante de Domicilio:</td>
-        <td><input type='file' name='documents' accept='.pdf, .jpg, .png' /></td>
-      </tr>
-      <tr class='data'>
-        <td>Comprobante de Estado de Cuenta:</td>
+        <td>
+          <select name='documentType'>
+            <option value='identificación'>Identificación</option>
+            <option value='comprobanteDomicilio'>Comprobante de Domicilio</option>
+            <option value='comprobanteEstadoCuenta'>Comprobante de Estado de Cuenta</option>
+          </select>
+        </td>
         <td><input type='file' name='documents' accept='.pdf, .jpg, .png' /></td>
       </tr>
     </table>

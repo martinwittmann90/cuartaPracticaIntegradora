@@ -66,19 +66,17 @@ class UserController {
         return res.status(404).json({ message: 'User not found' });
       }
       const uploadedFiles = req.files;
-      const documents = [];
-      for (const file of uploadedFiles) {
-        const document = {
-          name: file.originalname,
-          link: `${req.protocol}://${req.get('host')}/api/documents/${file.filename}`,
-          status: 'completed',
-          statusVerified: true,
-          documentName: file.originalname,
-        };
-        documents.push(document);
-      }
-
-      user.documents = documents;
+      user.documents.push(
+        ...uploadedFiles.map((file) => {
+          return {
+            name: file.originalname,
+            link: `${req.protocol}://${req.get('host')}/api/documents/${file.filename}`,
+            status: 'completed',
+            statusVerified: true,
+            documentType: req.body.documentType,
+          };
+        })
+      );
       await user.save();
       res.status(200).redirect('/api/sessions/current');
     } catch (error) {
