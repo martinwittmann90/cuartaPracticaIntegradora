@@ -53,6 +53,7 @@ const userSchema = new Schema(
           statusVerified: false,
         },
       ],
+    },
     last_connection: {
       type: Date,
       default: Date.now(),
