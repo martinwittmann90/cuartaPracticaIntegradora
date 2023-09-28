@@ -55,18 +55,6 @@ const userSchema = new Schema(
         },
       ],
     },
-    /*     identificationDocuments: {
-      type: String,
-      default: '',
-    },
-    addressProofDocuments: {
-      type: String,
-      default: '',
-    },
-    bankStatementDocuments: {
-      type: String,
-      default: '',
-    }, */
     last_connection: {
       type: Date,
       default: Date.now(),
