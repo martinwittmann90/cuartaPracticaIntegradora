@@ -46,16 +46,26 @@ class UserController {
   async changeUserRole(req, res) {
     try {
       const { uid } = req.params;
-      const newRole = req.body.role;
       const user = await serviceUsers.getUserByIdService(uid);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      user.role = newRole;
+
+      if (user.role === 'premium') {
+        if (
+          !user.documents ||
+          !user.documents.some((document) => document.documentType === 'identificación') ||
+          !user.documents.some((document) => document.documentType === 'comprobanteDomicilio') ||
+          !user.documents.some((document) => document.documentType === 'comprobanteEstadoCuenta')
+        ) {
+          return res.status(403).json({ message: 'El usuario no ha terminado de procesar su documentación.' });
+        }
+      }
+      user.role = req.body.role;
       await user.save();
-      return res.redirect('/api/sessions/admincontrol');
+      res.status(200).json({ user });
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error: Can not change user role' });
+      return res.status(500).json({ status: 'error', message: 'Internal server error: Unable to update user role' });
     }
   }
   async uploadDocuments(req, res) {

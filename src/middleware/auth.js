@@ -129,9 +129,9 @@ export function checkRequiredDocuments(req, res, next) {
   if (req.body.role === 'premium') {
     if (
       user.documents &&
-      user.documents.some((document) => document.name === 'Identificación') &&
-      user.documents.some((document) => document.name === 'Comprobante de domicilio') &&
-      user.documents.some((document) => document.name === 'Comprobante de estado de cuenta')
+      user.documents.some((document) => document.documentType === 'identificación') &&
+      user.documents.some((document) => document.documentType === 'comprobanteDomicilio') &&
+      user.documents.some((document) => document.documentType === 'comprobanteEstadoCuenta')
     ) {
       next();
     } else {
