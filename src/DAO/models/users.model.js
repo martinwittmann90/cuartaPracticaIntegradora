@@ -43,12 +43,16 @@ const userSchema = new Schema(
       type: String,
       default: '/userNotLog.png',
     },
-    documents: [
-      {
-        name: String,
-        link: String,
-      },
-    ],
+    documents: {
+      type: Array,
+      default: [
+        {
+          name: '',
+          link: '',
+          status: 'pending',
+          statusVerified: false,
+        },
+      ],
     last_connection: {
       type: Date,
       default: Date.now(),

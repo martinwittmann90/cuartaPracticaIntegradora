@@ -70,11 +70,14 @@ class UserController {
       for (const file of uploadedFiles) {
         const document = {
           name: file.originalname,
-          reference: file.filename,
-          status: 'pending',
+          link: `${req.protocol}://${req.get('host')}/api/documents/${file.filename}`,
+          status: 'completed',
+          statusVerified: true,
+          documentName: file.originalname,
         };
         documents.push(document);
       }
+
       user.documents = documents;
       await user.save();
       res.status(200).redirect('/api/sessions/current');
@@ -93,6 +96,24 @@ class UserController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error al cargar la imagen de perfil' });
+    }
+  }
+  async completeDocument(req, res) {
+    try {
+      const { uid, documentName } = req.params;
+      const user = await serviceUsers.getUserByIdService(uid);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const document = user.documents.find((document) => document.name === documentName);
+      if (!document) {
+        return res.status(404).json({ message: 'Document not found' });
+      }
+      document.statusVerified = true;
+      await user.save();
+      res.status(200).json({ message: 'Document completed successfully' });
+    } catch (error) {
+      return res.status(500).json({ status: 'error', message: 'Internal server error: Unable to complete document' });
     }
   }
 }

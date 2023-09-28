@@ -10,5 +10,6 @@ usersRouter.get('/premium/:uid', isAdmin, userController.renderChangeUserRole);
 usersRouter.post('/premium/:uid', isAdmin, checkRequiredDocuments, userController.changeUserRole);
 usersRouter.post('/:uid/documents', uploader.array('documents'), userController.uploadDocuments);
 usersRouter.post('/:uid/profile-image', uploader.single('profiles'), userController.uploadProfileImage);
+usersRouter.post('/:uid/documents/:documentName', userController.completeDocument);
 
 export default usersRouter;

@@ -90,14 +90,14 @@
   <table>
     <tr>
       <th>Nombre</th>
-      <th>reference</th>
-      <th>status</th>
+      <th>Status</th>
+      <th>Subido</th>
     </tr>
     {{#each user.documents}}
       <tr>
         <td>{{name}}</td>
-        <td>{{reference}}</td>
         <td>{{status}}</td>
+        <td>{{statusVerified}}</td>
       </tr>
     {{/each}}
   </table>
